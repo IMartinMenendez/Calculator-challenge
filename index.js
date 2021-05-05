@@ -4,18 +4,26 @@ let num2 = [];
 let num4 = [];
 let operation = "";
 
-if (num3 === ""){for (let i = 0; i < document.querySelectorAll(".calcutation").length; i++) {
-    document.querySelectorAll(".calcutation")[i].addEventListener("click", function () {
-        event.preventDefault();
-        num1 = this.innerHTML;
-        num2.push(num1);
-        document.getElementById("number").value = num2.join("");
-        console.log(num2.join(""))
-    })
-}}
+document.querySelector(".clear").addEventListener("click", function () {
+    document.getElementById("number").value = "";
+})
+
 
 for (let i = 0; i < document.querySelectorAll(".calcutation").length; i++) {
-document.querySelectorAll(".operator")[i].addEventListener("click", function () {
+    document.querySelectorAll(".calcutation")[i].addEventListener("click", function () {
+        if (operation === "") {
+            event.preventDefault();
+            num1 = this.innerHTML;
+            num2.push(num1);
+            document.getElementById("number").value = num2.join("");
+            console.log(num2.join(""))
+        }
+    })
+}
+
+
+for (let i = 0; i < document.querySelectorAll(".operator").length; i++) {
+    document.querySelectorAll(".operator")[i].addEventListener("click", function () {
         event.preventDefault();
         operation = this.innerHTML;
         console.log(operation);
@@ -27,10 +35,12 @@ document.querySelectorAll(".operator")[i].addEventListener("click", function () 
                     num3 = this.innerHTML;
                     num4.push(num3);
                     document.getElementById("number").value = num4.join("");
+                    console.log("num4: ", num4.join(""));
                 })
             }
         }
-    })}
+    })
+}
 
 function total() {
     event.preventDefault();
