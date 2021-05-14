@@ -4,14 +4,8 @@ let num2 = [];
 let num4 = [];
 let operation = "";
 
-
 document.querySelector(".clear").addEventListener("click", function () {
     document.getElementById("number").value = "";
-    let num1 = "";
-    let num3 = "";
-    let num2 = [];
-    let num4 = [];
-    let operation = "";
 })
 
 
