@@ -1,24 +1,29 @@
-body{
-   text-align: center;
+body {
+    text-align: center;
 }
-.screen{
+
+.screen {
     margin: 50px 20px 50px;
     font-size: 80px;
     width: 580px;
     height: 120px;
-    text-align: right!important;
+    text-align: right !important;
 }
-button{
+
+button {
     margin: 4px;
     font-size: 80px;
     width: 120px;
 }
 
-.calculator{
+.calculator {
     width: 700px;
     height: 700px;
     background-color: black;
     justify-content: space-evenly;
     margin: auto;
+}
 
+#number {
+    caret-color: transparent;
 }

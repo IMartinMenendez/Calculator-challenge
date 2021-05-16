@@ -1,78 +1,80 @@
-let num1 = "";
-let num3 = "";
-let num2 = [];
-let num4 = [];
+let firstOperand = "";
 let operation = "";
+let secondOperand = "";
+let result = 0;
+let waitingForSecondOperand = false;
 
-document.querySelector(".clear").addEventListener("click", function () {
-    document.getElementById("number").value = "";
-})
+const visibleResultElement = document.getElementById("number");
+const numberElements = document.querySelectorAll(".number");
+const operatorElements = document.querySelectorAll(".operator");
 
+visibleResultElement.value = "0";
 
-for (let i = 0; i < document.querySelectorAll(".calcutation").length; i++) {
-    document.querySelectorAll(".calcutation")[i].addEventListener("click", function () {
-        if (operation === "") {
-            event.preventDefault();
-            num1 = this.innerHTML;
-            num2.push(num1);
-            document.getElementById("number").value = num2.join("");
-            console.log(num2.join(""))
-        }
-    })
-}
-
-
-for (let i = 0; i < document.querySelectorAll(".operator").length; i++) {
-    document.querySelectorAll(".operator")[i].addEventListener("click", function () {
-        event.preventDefault();
-        operation = this.innerHTML;
-        console.log(operation);
-
-        if (operation !== "") {
-            for (let i = 0; i < document.querySelectorAll(".calcutation").length; i++) {
-                document.querySelectorAll(".calcutation")[i].addEventListener("click", function () {
-                    event.preventDefault();
-                    num3 = this.innerHTML;
-                    num4.push(num3);
-                    document.getElementById("number").value = num4.join("");
-                    console.log("num4: ", num4.join(""));
-                })
-            }
-        }
-    })
-}
-
-function total() {
+// Prevent typing in the input
+visibleResultElement.addEventListener("keypress", function (event) {
     event.preventDefault();
+});
+
+for (let i = 0; i < numberElements.length; i++) {
+    numberElements[i].addEventListener("click", function (event) {
+        event.preventDefault();
+        if (!waitingForSecondOperand) {
+            firstOperand += `${this.innerHTML}`;
+            visibleResultElement.value = firstOperand;
+        } else {
+            secondOperand += `${this.innerHTML}`;
+            visibleResultElement.value = secondOperand;
+        }
+    });
+}
+
+
+for (let i = 0; i < operatorElements.length; i++) {
+    operatorElements[i].addEventListener("click", function (event) {
+        event.preventDefault();
+
+        if (firstOperand === "" && this.innerHTML === "-") {
+            firstOperand += "-";
+        } else if (firstOperand !== "" && secondOperand !== "") {
+            refreshVisibleResult();
+            operation = this.innerHTML;
+        } else if (firstOperand !== "") {
+            operation = this.innerHTML;
+            waitingForSecondOperand = true;
+        }
+    });
+}
+
+document.getElementById("total").addEventListener("click", function (event) {
+        event.preventDefault();
+        refreshVisibleResult();
+    }
+);
+
+function refreshVisibleResult() {
     switch (operation) {
         case "+":
-            operator1 = Number(num2.join(""));
-            operator2 = Number(num4.join(""));
-            total = operator1 + operator2;
-            document.getElementById("number").value = total;
+            result = Number(firstOperand) + Number(secondOperand);
             break;
         case "-":
-            operator1 = Number(num2.join(""));
-            operator2 = Number(num4.join(""));
-            total = operator1 - operator2;
-            document.getElementById("number").value = total;
+            result = Number(firstOperand) - Number(secondOperand);
             break;
         case "/":
-            operator1 = Number(num2.join(""));
-            operator2 = Number(num4.join(""));
-            total = operator1 / operator2;
-            document.getElementById("number").value = total;
+            result = Number(firstOperand) / Number(secondOperand);
             break;
         case "x":
-            operator1 = Number(num2.join(""));
-            operator2 = Number(num4.join(""));
-            total = operator1 * operator2;
-            document.getElementById("number").value = total;
+            result = Number(firstOperand) * Number(secondOperand);
             break;
         case "c":
-            document.getElementById("number").value = "";
+            result = 0;
+            operation = "+";
             break;
         default:
-            document.getElementById("number").value = "ERROR";
+            visibleResultElement.value = "ERROR";
+            return;
     }
+    firstOperand = result;
+    secondOperand = "";
+    waitingForSecondOperand = true;
+    visibleResultElement.value = result;
 }
